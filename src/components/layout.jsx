@@ -4,13 +4,16 @@ import Octicon from 'react-octicon';
 
 const Layout = ({children}) => (
   <div>
-    <Navbar style={{position: 'absolute', top: 0, left: 0, right: 0}}>
+    <Navbar style={{position: 'absolute', top: 0, left: 0, right: 0, zIndex: 1}}>
       <NavbarBrand>NetSwarm Simulator</NavbarBrand>
-      <Nav pullRight>
-        <NavItem href='https://github.com/wvengen/netswarm-arduino'><Octicon name='mark-github' /> Arduino</NavItem>
-        <NavItem href='https://github.com/wvengen/netswarm-simulator' active><Octicon name='mark-github' /> Simulator</NavItem>
-        <NavItem href='https://github.com/wvengen/netswarm-webapp'><Octicon name='mark-github' /> Monitor</NavItem>
-      </Nav>
+      <Navbar.Toggle />
+      <Navbar.Collapse>
+        <Nav pullRight>
+          <NavItem href='https://github.com/wvengen/netswarm-arduino'><Octicon name='mark-github' /> Arduino</NavItem>
+          <NavItem href='https://github.com/wvengen/netswarm-simulator' active><Octicon name='mark-github' /> Simulator</NavItem>
+          <NavItem href='https://github.com/wvengen/netswarm-webapp'><Octicon name='mark-github' /> Monitor</NavItem>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
     <div className="container" style={{position: 'absolute', top: 75, bottom: 25, left: 0, right: 0}}>
       {children}

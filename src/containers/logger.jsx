@@ -17,7 +17,7 @@ class LoggerContainer extends React.Component {
   render() {
     const {dispatch, messages, ...props} = this.props;
     return (
-      <div {...props} style={{overflowY: 'scroll', ...props.style}} ref='container'>
+      <div {...props} style={{overflowY: 'scroll', minHeight: '15ex', ...props.style}} ref='container'>
         {messages.filter(m => m.message !== '').map(({nodeId, message, timestamp}, i)=> (
           <div key={i} style={{whiteSpace: 'nowrap'}}>
             <div style={{display: 'inline-block', width: 20, textAlign: 'right', verticalAlign: 'top'}}>{nodeId}</div>

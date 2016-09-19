@@ -1,6 +1,7 @@
 import debounce from 'throttle-debounce/debounce';
 import Compiler from '../compiler';
 import examples from '../examples/index';
+import {actions as settings} from './settings';
 
 const rootCompiler = new Compiler(); // there's one compiler for compiling the code
 let   nodeCompilers = [];            // and each node has its own compiler runtime
@@ -10,9 +11,13 @@ const doCompile = debounce(1500, (code, callback) => {
   callback(rootCompiler.compile(code));
 });
 
-function loadCode(code, example) {
+function loadCode(code, example, set) {
   return (dispatch, getState) => {
+    // keep url up-to-date with loaded example
     location.hash = example ? `#!/examples/${example}` : '';
+    // perhaps we want to update the nodeCount as well
+    set && dispatch(settings.update(set));
+    // now the real stuff
     dispatch({type: 'UPDATE_CODE', data: {code: code, example, error: null, compiled: false, started: false, running: false, messages: []}});
     doCompile(code, (error) => {
       if (!error) {
@@ -29,11 +34,12 @@ function loadCode(code, example) {
 }
 
 function updateCode(code) {
-  return loadCode(code, null);
+  return loadCode(code, null, null);
 }
 
 function loadExample(id) {
-  return loadCode(examples.find(e => e.id === id).code, id);
+  const ex = examples.find(e => e.id === id) || {};
+  return loadCode(ex.code, id, ex.settings);
 }
 
 function setupNodes() {

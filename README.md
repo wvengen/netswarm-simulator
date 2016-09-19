@@ -7,6 +7,10 @@ how it works, and helps running a NetSwarm network without needing the hardware.
 
 **This isn't fully finished yet. Enjoy a basic Arduino simulator, help out to finish it, or come back later.**
 
+Visit the [online Arduino simulator](https://wvengen.github.io/netswarm-simulator).
+
+![screenshot](screenshot.png)
+
 
 Development
 -----------

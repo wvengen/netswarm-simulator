@@ -13,6 +13,8 @@ function _micros(rt, _this) {
 }
 
 export function load(rt) {
+  rt.include('math');
+  rt.include('random');
   rt.include('serial');
 
   rt.regFunc(_millis, 'global', 'millis', [], unsignedLongTypeLiteralGen(rt));

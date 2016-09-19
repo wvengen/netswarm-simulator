@@ -1,5 +1,6 @@
 import debounce from 'throttle-debounce/debounce';
 import Compiler from '../compiler';
+import examples from '../examples/index';
 
 const rootCompiler = new Compiler(); // there's one compiler for compiling the code
 let   nodeCompilers = [];            // and each node has its own compiler runtime
@@ -9,9 +10,10 @@ const doCompile = debounce(1500, (code, callback) => {
   callback(rootCompiler.compile(code));
 });
 
-function updateCode(code) {
+function loadCode(code, example) {
   return (dispatch, getState) => {
-    dispatch({type: 'UPDATE_CODE', data: {code: code, error: null, compiled: false, started: false, running: false, messages: []}});
+    location.hash = example ? `#!/examples/${example}` : '';
+    dispatch({type: 'UPDATE_CODE', data: {code: code, example, error: null, compiled: false, started: false, running: false, messages: []}});
     doCompile(code, (error) => {
       if (!error) {
         dispatch({type: 'UPDATE_CODE', data: {compiled: true}});
@@ -24,6 +26,14 @@ function updateCode(code) {
       }
     });
   };
+}
+
+function updateCode(code) {
+  return loadCode(code, null);
+}
+
+function loadExample(id) {
+  return loadCode(examples.find(e => e.id === id).code, id);
 }
 
 function setupNodes() {
@@ -86,9 +96,10 @@ function stop() {
   }
 }
 
-export const actions = {updateCode, step, start, stop, reset, sync};
+export const actions = {updateCode, loadExample, step, start, stop, reset, sync};
 
 const initialState = {
+  example: null,
   code: 'void setup() {\n  Serial.println("Started.");\n}\n\nunsigned int i = 0;\nvoid loop() {\n  Serial.print("-> ");\n  Serial.println(++i);\n}',
   error: null,
   compiled: false,

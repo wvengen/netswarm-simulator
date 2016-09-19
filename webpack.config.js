@@ -17,7 +17,8 @@ module.exports = {
       {test: /\.json$/, loader: 'json-loader'},
       {test: /\.(css)$/, loader: 'style!css'},
       {test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=8192'},
-      {test: /\.(otf|eot|svg|ttf|woff|woff2).*$/, loader: 'url?limit=8192'}
+      {test: /\.(otf|eot|svg|ttf|woff|woff2).*$/, loader: 'url?limit=8192'},
+      {test: /\.(txt|ino)/, loader: 'text-loader'},
     ],
     // workaround for https://github.com/webpack/webpack/issues/138
     noParse: /PEGUtil\.js$/,

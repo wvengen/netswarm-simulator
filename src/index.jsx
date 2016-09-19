@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import {Col, Panel} from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
 
-import Layout from './components/layout';
+import Layout from './containers/layout';
 import CodeEditor from './containers/code-editor';
 import RunControls from './containers/run-controls';
 import Logger from './containers/logger';
@@ -32,8 +32,13 @@ AppContent.propTypes = {
 };
 const AppContentView = Dimensions()(AppContent);
 
-// compile initial code
-store.dispatch(actions.reset());
+// load example when requested
+if (location.hash && String(location.hash).match(/^#!\/examples\//)) {
+  store.dispatch(actions.loadExample(String(location.hash).slice(12)));
+} else {
+  // else compile initial code
+  store.dispatch(actions.reset());
+}
 
 // render app
 ReactDOM.render(
